@@ -68,6 +68,6 @@ theme: yelee
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: github
+  type: git
   repository: https://github.com/HughDai/hughdai.github.io.git
   branch: master
