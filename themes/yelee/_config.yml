@@ -129,7 +129,7 @@ toc_nowrap: false
 
 # 是否显示边栏中的搜索框（仅样式，未添加搜索功能）
 # Search Box in left column
-search_box: false
+search_box: true
 
 # 是否开启主页及加载头像时的动画效果
 # Animation in Homepage and Loading avatar
@@ -153,7 +153,7 @@ friends:
 #friends: false
 
 #是否开启“关于我”。
-aboutme: 专注于前端
+aboutme: 专注于前端,有好的工作机会请给我来信cynicism2011@gmail.com
 #aboutme: false
 
 # 是否在新窗口打开链接
