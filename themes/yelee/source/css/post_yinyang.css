@@ -1,0 +1,48 @@
+*, *:before, *:after{
+    box-sizing: border-box;
+}
+#wrapper {
+    position: relative;
+    height:500px;
+    width:100%;
+}
+.Yin-Yang {
+    /*   margin:0 auto; */
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background: linear-gradient(to right, #FFF 50%, #000 50%);
+    -webkit-animation: spin 5s infinite linear;
+    top: 50%;
+    left: 50%;
+    margin-left: -120px;
+    margin-top: -120px;
+}
+.Yin-Yang:before, .Yin-Yang:after {
+    content: '';
+    width: 50%;
+    height:50%;
+    border-radius: 50%;
+    border:40px solid;
+    position:absolute;
+    left:0;
+    right:0;
+    margin:0 auto;
+}
+.Yin-Yang:before {
+    background-color:#000;
+    border-color:#FFF;
+    top:0;
+}
+.Yin-Yang:after {
+    background-color:#FFF;
+    border-color: #000;
+    bottom:0
+}
+@-webkit-keyframes spin{
+    to {
+        -webkit-transform: rotate(360deg)
+    }
+}

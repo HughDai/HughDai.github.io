@@ -1,11 +1,18 @@
 ---
 layout: post
-title: "css3Clock"
+title: "css3 Clock"
 date: 2015-01-16 18:50:56 +0800
 comments: true
-categories:
+categories: CSS
+tags: [animation]
+keywords: CSS, 动画, clock, animation, 钟表
+description: css3和js实现钟表
 ---
 reference http://segmentfault.com/a/1190000003055672
 
-<p data-height="400" data-theme-id="0" data-slug-hash="MKKXJp" data-default-tab="result" data-user="HughDai" class='codepen'>See the Pen <a href='http://codepen.io/HughDai/pen/MKKXJp/'>clock</a> by Hugh Dai (<a href='http://codepen.io/HughDai'>@HughDai</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<link rel="stylesheet" href="/css/post_clock.css"/>
+<div id="wrapper"><div class="clock-wrapper"><div class="clock-base"><div class="click-indicator"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div class="clock-hour"></div><div class="clock-minute"></div><div class="clock-second"></div><div class="clock-center"></div></div></div></div>
+<style id="clock-animations"></style><script src='/js/post_clock.js'></script>
+
+<p data-height="400" data-theme-id="0" data-slug-hash="MKKXJp" data-default-tab="js" data-user="HughDai" class='codepen'>See the Pen <a href='http://codepen.io/HughDai/pen/MKKXJp/'>clock</a> by Hugh Dai (<a href='http://codepen.io/HughDai'>@HughDai</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
