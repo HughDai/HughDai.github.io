@@ -3,7 +3,7 @@ layout: post
 title: Github/Gitlab多账户SSH Key切换
 date: 2016-07-01 17:38:13
 comments: true
-categories: tool config
+categories: tool
 tags: [Git]
 keywords: ssh, GitLab, GitHub
 description: 使用ssh config实现GitLab 和 GitHub账户切换
