@@ -6,11 +6,11 @@ comments: true
 categories: tool
 tags: [Git]
 keywords: ssh, GitLab, GitHub
-description: 使用ssh config实现GitLab 和 GitHub账户切换
+<!--description: 使用ssh config实现GitLab 和 GitHub账户切换-->
 ---
 由于目前公司使用GitLab托管代码,本人又在GitHub上有自己的代码仓库。同时用来生成public key的邮箱也不一样,公司GitLab用的是 daixu@zuche.com ,自己GitHub用的是 cynicism2011@gmail.com 。
 这样用起来就非常操蛋了,每次切换的时候都得切换public key。google了一下发现用ssh config轻松解决。
-
+<!-- more -->
 ### 配置Git邮箱
 
 ```bash

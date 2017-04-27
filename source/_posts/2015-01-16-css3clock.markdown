@@ -6,7 +6,7 @@ comments: true
 categories: CSS
 tags: [animation]
 keywords: CSS, 动画, clock, animation, 钟表
-description: css3和js实现钟表
+<!--description: css3和js实现钟表-->
 ---
 reference http://segmentfault.com/a/1190000003055672
 
@@ -16,3 +16,4 @@ reference http://segmentfault.com/a/1190000003055672
 
 <p data-height="400" data-theme-id="0" data-slug-hash="MKKXJp" data-default-tab="js" data-user="HughDai" class='codepen'>See the Pen <a href='http://codepen.io/HughDai/pen/MKKXJp/'>clock</a> by Hugh Dai (<a href='http://codepen.io/HughDai'>@HughDai</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+<!-- more -->

@@ -6,10 +6,11 @@ comments: true
 categories: JS
 tags: [this, 面向对象]
 keywords: JS, 原生, this, 面向对象
-description: this指向描述
+<!--description: this指向描述-->
 ---
 &emsp;&emsp;在js函数中，除了定义函数时的形参，还有两个附加参数，即this和arguments，本篇就讲一下this关键字的用法以及this在不同场景下值。
 初学时受启发得知this的指向取决于函数的调用方式，总结下来有以下几点：
+<!-- more -->
 1、作为函数调用的模式，this指向window
 ```javascript
 function func(){

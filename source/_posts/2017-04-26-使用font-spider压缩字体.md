@@ -6,12 +6,12 @@ comments: true
 categories: js
 tags: [font-face,font-spider]
 keywords: font,spider,font-face
-description: font-spider按需压缩字体文件
+<!--description: font-spider按需压缩字体文件-->
 ---
 ## 引言
 >字蛛是一个 WebFont 智能压缩工具，它能自动化分析页面中所使用的 WebFont 并进行按需压缩，通常好几 MB 的中文字体可以被压缩成几 KB 大小。 
 >[font-spider](http://font-spider.org)
-
+<!-- more -->
 ## @font-face
 在前端开发中,经常会用到字体文件,比如常见的ttf、woff2、woff、eot、svg等格式。
 有时候设计师出的图中用到的字体不是web安全字体,系统中不存在,然而程序员又不想通过切图这种lowB的方法实现,就得用到CSS3 @font-face定制相应的字体。
