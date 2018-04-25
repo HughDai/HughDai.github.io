@@ -34,7 +34,9 @@ keywords: 算法,数学
                 lastPivot = pivot;
                 pivot = (low + high) / 2;
             }
-            while (Math.abs(pivot - lastPivot))
+            // 2018-04-25 22:08 更新
+            // 使用Number.EPSILON表示能够接受的最小误差范围
+            while (Math.abs(pivot - lastPivot) >= Number.EPSILON)
 
             return pivot;
         }
@@ -52,7 +54,9 @@ keywords: 算法,数学
                 last = val;
                 val = (val + n / val) / 2;
             }
-            while (Math.abs(val - last))
+            // 2018-04-25 22:08 更新
+            // 使用Number.EPSILON表示能够接受的最小误差范围
+            while (Math.abs(val - last) >= Number.EPSILON)
             return val
         }
 ```
