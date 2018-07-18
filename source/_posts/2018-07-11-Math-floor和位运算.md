@@ -22,7 +22,7 @@ keywords: js,位运算
 >3、如果 oldValue 为 true ，返回 false.
 >4、返回 true.
 
-说白了就是ToBoolean返回的oldValue为true，就为false，否则为true。理解了逻辑非 ! 就不难理解了，!! 的意思就是直接返回 ToBoolean(GetValue(expr)) ，目的是将操作数转化为布尔类型，相当于 Boolean(value)。看看几个例子：
+说白了就是ToBoolean返回的oldValue为true，就为false，否则为true。理解了逻辑非 ! 就不难理解 !! 了，!! 的意思就是直接返回 ToBoolean(GetValue(expr)) ，目的是将操作数转化为布尔类型，相当于 Boolean(value)。看看几个例子：
 ``` js
 !! 1 // true
 !! 0 // false
