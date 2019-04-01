@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="k2jxDSXIGg">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="js,位运算,bitwise">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="前言在学习js运算符的过程中，大家应该对按位操作符不会感到陌生，但是相信大部分人在编码中用到位操作的机会寥寥，甚至于有些新手同学压根不知道js还有位运算或者某些逻辑运算符。比如一个简单的逻辑运算符 !! ，前阵子组里一个同学来问这是什么意思，解释了大半天。在看各种源码的时候，经常会碰到 !!、~~ 、&amp;gt;&amp;gt; 之类的运算符，刚出道的时候我也是不求甚解，后来看多了自然明了了。">
+<meta name="keywords" content="js,位运算,bitwise">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js中的位运算及其用途">
+<meta property="og:url" content="http://hughdai.github.io/2018/07/11/js中的位运算及其用途/index.html">
+<meta property="og:site_name" content="Hugh Dai&#39;s Blog">
+<meta property="og:description" content="前言在学习js运算符的过程中，大家应该对按位操作符不会感到陌生，但是相信大部分人在编码中用到位操作的机会寥寥，甚至于有些新手同学压根不知道js还有位运算或者某些逻辑运算符。比如一个简单的逻辑运算符 !! ，前阵子组里一个同学来问这是什么意思，解释了大半天。在看各种源码的时候，经常会碰到 !!、~~ 、&amp;gt;&amp;gt; 之类的运算符，刚出道的时候我也是不求甚解，后来看多了自然明了了。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hughdai.github.io/images/bitwise.png">
+<meta property="og:image" content="http://hughdai.github.io/images/mathfloorvsbitwise.png">
+<meta property="og:updated_time" content="2019-04-01T03:43:53.678Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js中的位运算及其用途">
+<meta name="twitter:description" content="前言在学习js运算符的过程中，大家应该对按位操作符不会感到陌生，但是相信大部分人在编码中用到位操作的机会寥寥，甚至于有些新手同学压根不知道js还有位运算或者某些逻辑运算符。比如一个简单的逻辑运算符 !! ，前阵子组里一个同学来问这是什么意思，解释了大半天。在看各种源码的时候，经常会碰到 !!、~~ 、&amp;gt;&amp;gt; 之类的运算符，刚出道的时候我也是不求甚解，后来看多了自然明了了。">
+<meta name="twitter:image" content="http://hughdai.github.io/images/bitwise.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    tabs: true,
+    motion: "",
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hughdai.github.io/2018/07/11/js中的位运算及其用途/">
+
+
+
+
+
+  <title>js中的位运算及其用途 | Hugh Dai's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-71406771-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d2e61f7649017bd5065b4af06753ff60";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hugh Dai's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">曾经无数次因为头发过于浓密而苦恼</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hughdai.github.io/2018/07/11/js中的位运算及其用途/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="戴旭">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hugh Dai's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">js中的位运算及其用途</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-11T10:42:39+08:00">
+                2018-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/11/js中的位运算及其用途/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/11/js中的位运算及其用途/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在学习js运算符的过程中，大家应该对<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators" target="_blank" rel="noopener">按位操作符</a>不会感到陌生，但是相信大部分人在编码中用到位操作的机会寥寥，甚至于有些新手同学压根不知道js还有位运算或者某些逻辑运算符。比如一个简单的逻辑运算符 !! ，前阵子组里一个同学来问这是什么意思，解释了大半天。在看各种源码的时候，经常会碰到 !!、~~ 、&gt;&gt; 之类的运算符，刚出道的时候我也是不求甚解，后来看多了自然明了了。</p>
+<p><img src="/images/bitwise.png" alt><br><a id="more"></a></p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><strong>CAUTION：js中的位运算只对整数起作用，因为位操作都有ToInt32这一步，从而舍弃小数部分。</strong></p>
+<h3 id="一、先不说位操作运算符，来看两个逻辑运算符"><a href="#一、先不说位操作运算符，来看两个逻辑运算符" class="headerlink" title="一、先不说位操作运算符，来看两个逻辑运算符"></a>一、先不说位操作运算符，来看两个逻辑运算符</h3><h4 id="1、"><a href="#1、" class="headerlink" title="1、!!"></a>1、!!</h4><p>要想了解 !! 首先要了解逻辑非运算符 ! ，先看看ECMA-262的定义</p>
+<blockquote>
+<p>产生式 UnaryExpression : ! UnaryExpression 按照下面的过程执行 :<br>1、令 expr 为解释执行 UnaryExpression 的结果 .<br>2、令 oldValue 为 ToBoolean(GetValue(expr)).<br>3、如果 oldValue 为 true ，返回 false.<br>4、返回 true.</p>
+</blockquote>
+<p>说白了就是ToBoolean返回的oldValue为true，就为false，否则为true。理解了逻辑非 ! 就不难理解 !! 了，!! 的意思就是直接返回 ToBoolean(GetValue(expr)) ，目的是将操作数转化为布尔类型，相当于 Boolean(value)。看看几个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">!! <span class="number">1</span> <span class="comment">// true</span></span><br><span class="line">!! <span class="number">0</span> <span class="comment">// false</span></span><br><span class="line">!! <span class="literal">null</span> <span class="comment">// false</span></span><br><span class="line">!! <span class="literal">undefined</span> <span class="comment">// false</span></span><br><span class="line">!! <span class="literal">NaN</span> <span class="comment">//false</span></span><br><span class="line">!! <span class="string">''</span> <span class="comment">// false</span></span><br><span class="line">!! <span class="string">'abc'</span> <span class="comment">// true</span></span><br><span class="line">!! <span class="number">100</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="2、"><a href="#2、" class="headerlink" title="2、~~"></a>2、~~</h4><p>同样要想理解 ~~ 首先要知道按位非操作符 ~ 的概念，正如上面MDN截图所示，按位非的意思即对每一个比特位进行非操作求反码再求补码。还是先看ECMA-262的定义</p>
+<blockquote>
+<p>产生式 UnaryExpression : ~ UnaryExpression 按照下面的过程执行 :<br>1、令 expr 为解释执行 UnaryExpression 的结果 .<br>2、令 oldValue 为 ToInt32(GetValue(expr)).<br>3、返回 oldValue 按位取反的结果。结果为 32 位有符号整数。</p>
+</blockquote>
+<p>看一个MDN上的例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">~<span class="number">9</span> = <span class="number">-10</span></span><br><span class="line"><span class="comment">// why 是不是感到很奇怪，我又温习了一遍反码补码的知识</span></span><br><span class="line"><span class="comment">// 10进制的数字9转换为二进制原码 0 0000000000000000000000000001001</span></span><br><span class="line"><span class="comment">// 然后对每一位进行按位非 1 1111111111111111111111111110110</span></span><br><span class="line"><span class="comment">// 然后再求反，符号位为1表示为负数，符号位不变，1 0000000000000000000000000001001</span></span><br><span class="line"><span class="comment">// 末尾+1 得到补码 1 0000000000000000000000000001010</span></span><br><span class="line"><span class="comment">// 得到 -10</span></span><br></pre></td></tr></table></figure></p>
+<p>所以对任一数值 x 进行按位非操作的结果为 -(x + 1)。<br>明白了按位非 ~ 的意思，下面看 ~~，顾名思义就是在 ~ 的基础上再做一次按位非，等于省略掉定义中的第三步返回 ToInt32(GetValue(expr))，目的是将操作数转化为32位有符号的整数类型，得到结果-(-(x+1) + 1)，看看几个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~~ <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line">~~ <span class="number">1</span> <span class="comment">// 1</span></span><br><span class="line">~~ <span class="literal">null</span> <span class="comment">// 0</span></span><br><span class="line">~~ <span class="literal">undefined</span> <span class="comment">// 0</span></span><br><span class="line">~~ <span class="literal">NaN</span> <span class="comment">// 0</span></span><br><span class="line">~~ <span class="string">''</span> <span class="comment">// 0</span></span><br><span class="line">~~ <span class="string">'abc'</span> <span class="comment">// 1</span></span><br><span class="line">~~ <span class="number">1.4</span> <span class="comment">// 1</span></span><br><span class="line">~~ <span class="number">-1.4</span> <span class="comment">// -1</span></span><br><span class="line">~~ <span class="number">1.5</span> <span class="comment">// 1</span></span><br><span class="line">~~ <span class="number">-1.5</span> <span class="comment">// -1</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="二、位操作运算符"><a href="#二、位操作运算符" class="headerlink" title="二、位操作运算符"></a>二、位操作运算符</h3><h4 id="1、-amp-按位与"><a href="#1、-amp-按位与" class="headerlink" title="1、&amp; (按位与)"></a>1、&amp; (按位与)</h4><p>&amp; (按位与)应该是最好理解的，如 a&amp;b，意思就是将a和b的每个比特位进行AND运算，即相对应的两个比特位都是1时结果为1，否则为0。将任一数值 x 与 0 执行按位与操作，其结果都为 0。将任一数值 x 与 -1 执行按位与操作，其结果都为 x。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">5</span> &amp; <span class="number">6</span> <span class="comment">// 4</span></span><br><span class="line"><span class="comment">// 5的二进制为 101</span></span><br><span class="line"><span class="comment">// 6的二进制为 110</span></span><br><span class="line"><span class="comment">// 得到       100 转成十进制为 4</span></span><br></pre></td></tr></table></figure></p>
+<p>看一个 &amp; 判断奇偶数的小技巧<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断奇偶</span></span><br><span class="line"><span class="comment">// 由于数字 1 的二进制是 00000000000000000000000000000001,并且奇数的二进制最低位也是 1</span></span><br><span class="line"><span class="comment">// 所以可以用任意整数和 1 进行&amp;运算判断奇偶</span></span><br><span class="line"><span class="number">4</span> &amp; <span class="number">1</span> <span class="comment">// 0 偶数</span></span><br><span class="line"><span class="number">5</span> &amp; <span class="number">1</span> <span class="comment">// 1 奇数</span></span><br></pre></td></tr></table></figure></p>
+<p>再看一个复杂点的例子：权限判断</p>
+<blockquote>
+<p>首先假设一个系统有4中权限分比为 一、二、三、四级权限，分别对应的数字为 8(1000)、4(0100)、2(0010)和 1(0001)。<br>假设有一个用户有二、三级权限，这样数据库中存储的该用户权限标志为 4 + 2 = 6(0110)。<br>然后判断该用户是否有权限 x ，即可用 6 &amp; x 来判断结果是不是0，如果为0则表示没有该权限。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6</span> &amp; <span class="number">8</span> <span class="comment">// 0 没有一级权限</span></span><br><span class="line"><span class="number">6</span> &amp; <span class="number">1</span> <span class="comment">// 0 没有四级权限</span></span><br><span class="line"><span class="number">6</span> &amp; <span class="number">2</span> <span class="comment">// 2 有三级权限</span></span><br><span class="line"><span class="number">6</span> &amp; <span class="number">4</span> <span class="comment">// 4 有二级权限</span></span><br></pre></td></tr></table></figure>
+<p>另外也可以用 &amp; 运算实现清除或者保留二进制特定位的作用，就不一一写代码列举了。</p>
+<h4 id="2、-按位或"><a href="#2、-按位或" class="headerlink" title="2、| (按位或)"></a>2、| (按位或)</h4><p>| (按位或)即是将a和b的每个比特位进行OR运算，相对应的比特位有一个为1结果就为 1 ，否则为 0 。将任一数值 x 与 0 进行按位或操作，其结果都是 x。将任一数值 x 与 -1 进行按位或操作，其结果都为 -1。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> | <span class="number">6</span> <span class="comment">// 7</span></span><br><span class="line"><span class="comment">// 5的二进制为 101</span></span><br><span class="line"><span class="comment">// 6的二进制为 110</span></span><br><span class="line"><span class="comment">// 得到       111 转成十进制为 7</span></span><br><span class="line"></span><br><span class="line"><span class="number">3.1415</span> | <span class="number">0</span> <span class="comment">// 3 也可以达到向下取整的效果</span></span><br></pre></td></tr></table></figure></p>
+<p>上一节的权限判断的例子也可用 | (按位或) 来实现：只需判断 6 | x 结果是不是 6 ，为 6 的话即表示有该权限。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6</span> | <span class="number">8</span> <span class="comment">// 14 没有一级权限</span></span><br><span class="line"><span class="number">6</span> &amp; <span class="number">1</span> <span class="comment">// 7 没有四级权限</span></span><br><span class="line"><span class="number">6</span> &amp; <span class="number">2</span> <span class="comment">// 6 有三级权限</span></span><br><span class="line"><span class="number">6</span> &amp; <span class="number">4</span> <span class="comment">// 6 有二级权限</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="3、-按位异或"><a href="#3、-按位异或" class="headerlink" title="3、^ (按位异或)"></a>3、^ (按位异或)</h4><p>^ (按位异或) 即是将a和b的每个比特位进行异或（XOR）操作，相对应的比特位有且只有一个为 1 就为1，否则为 0 。再讲明白点就是两个比特位不相同时返回 1 ，一样的时候就为 0。将任一数值 x 与 0 进行异或操作，其结果为 x。将任一数值 x 与 -1 进行异或操作，其结果为 ~x。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> ^ <span class="number">6</span> <span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 5的二进制为 101</span></span><br><span class="line"><span class="comment">// 6的二进制为 110</span></span><br><span class="line"><span class="comment">// 得到       011 转成十进制为 3</span></span><br></pre></td></tr></table></figure></p>
+<p>^ 有一个很巧妙的例子：交换两个整数值<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">5</span>, b = <span class="number">6</span>;</span><br><span class="line">a ^= b;</span><br><span class="line">b ^= a;</span><br><span class="line">a ^= b;</span><br><span class="line"><span class="built_in">console</span>.log(a, b); <span class="comment">// 6, 5</span></span><br></pre></td></tr></table></figure></p>
+<p>另外 ^ 也可以实现取绝对值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">abs</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> b = a &gt;&gt; <span class="number">31</span>; <span class="comment">// 如果a为正数或0则b为0，如果a是负数则b为-1</span></span><br><span class="line">    <span class="keyword">return</span> (a ^ b) - b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4、-lt-lt-左移"><a href="#4、-lt-lt-左移" class="headerlink" title="4、&lt;&lt; (左移)"></a>4、&lt;&lt; (左移)</h4><p>&lt;&lt; 操作符会将左边的操作数向左移动指定的位数，向左被移出的位将被丢弃，右侧会以0补充。<br>看一个MDN上的例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">9</span> &lt;&lt; <span class="number">2</span> = <span class="number">36</span></span><br><span class="line"><span class="comment">// 10进制的数字9转换为二进制原码 00000000000000000000000000001001</span></span><br><span class="line"><span class="comment">// 向左移动两位，丢弃左侧两位，右侧补0得到二进制 00000000000000000000000000100100即10进制 36</span></span><br></pre></td></tr></table></figure></p>
+<p>所以得到公式 x &lt;&lt; y = x * Math.pow(2, y)。看几个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">null</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line"><span class="literal">undefined</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line"><span class="literal">NaN</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line"><span class="number">12345</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 12345</span></span><br><span class="line"><span class="number">-12345</span> &lt;&lt; <span class="number">0</span> <span class="comment">// -12345</span></span><br><span class="line"><span class="number">30.12</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 30</span></span><br><span class="line"><span class="number">30.54</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 30</span></span><br><span class="line"><span class="number">1</span> &lt;&lt; <span class="number">1</span> <span class="comment">// 2</span></span><br><span class="line"><span class="number">1</span> &lt;&lt; <span class="number">2</span> <span class="comment">// 4</span></span><br><span class="line"><span class="number">-1</span> &lt;&lt; <span class="number">1</span> <span class="comment">// -2</span></span><br><span class="line"><span class="string">'12345'</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 12345</span></span><br><span class="line"><span class="string">''</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line"><span class="string">'abc'</span> &lt;&lt; <span class="number">0</span> <span class="comment">// 0</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="5、-gt-gt-有符号右移"><a href="#5、-gt-gt-有符号右移" class="headerlink" title="5、 &gt;&gt;(有符号右移)"></a>5、 &gt;&gt;(有符号右移)</h4><p>>&gt; 操作符会将左边的操作数向右移动指定的位数，向右被移出的位被丢弃，拷贝最左侧的符号位以填充左侧。由于新的最左侧的位总是和以前相同，符号位没有被改变。所以被称作“符号传播”。<br>看一个MDN上的例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">9</span> &gt;&gt; <span class="number">2</span> = <span class="number">2</span></span><br><span class="line"><span class="comment">// 10进制的数字9转换为二进制原码 00000000000000000000000000001001</span></span><br><span class="line"><span class="comment">// 向右移两位，左侧补两位符号位 00 得到 00000000000000000000000000000010 即10进制 2</span></span><br><span class="line"></span><br><span class="line"><span class="number">-9</span> &gt;&gt; <span class="number">2</span> = <span class="number">-3</span></span><br><span class="line"><span class="comment">// 有符号10进制 -9 补码 11111111111111111111111111110111</span></span><br><span class="line"><span class="comment">// 右移两位 11111111111111111111111111111101 即有符号10进制 -3</span></span><br></pre></td></tr></table></figure></p>
+<p>看看例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">null</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line"><span class="literal">undefined</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line"><span class="literal">NaN</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line"><span class="number">12345</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 12345</span></span><br><span class="line"><span class="number">-12345</span> &gt;&gt; <span class="number">0</span> <span class="comment">// -12345</span></span><br><span class="line"><span class="number">30.12</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 30</span></span><br><span class="line"><span class="number">30.54</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 30</span></span><br><span class="line"><span class="number">1</span> &gt;&gt; <span class="number">1</span> <span class="comment">// 0</span></span><br><span class="line"><span class="number">-1</span> &lt;&lt; <span class="number">1</span> <span class="comment">// -1</span></span><br><span class="line"><span class="string">'12345'</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 12345</span></span><br><span class="line"><span class="string">''</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 0</span></span><br><span class="line"><span class="string">'abc'</span> &gt;&gt; <span class="number">0</span> <span class="comment">// 0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Math-floor和-、-lt-lt-、-gt-gt-的关系"><a href="#Math-floor和-、-lt-lt-、-gt-gt-的关系" class="headerlink" title="Math.floor和 ~~ 、&lt;&lt; 、&gt;&gt; 的关系"></a>Math.floor和 ~~ 、&lt;&lt; 、&gt;&gt; 的关系</h2><p>上面列举了那么多例子，可能会发现在x为正数的时候 Math.floor(x) 和 ~~ x 、x &lt;&lt; 0 、x &gt;&gt; 0 都能够达到向下取整的效果。<strong>因为js中所有数字都是以64位浮点数形式储存，当进行位运算的时候都有ToInt32这一步骤舍弃了小数，达到向下取整的效果。</strong><br>看过好多源码中都有 ~~ x 和 &gt;&gt; 0 等类似向下取整的写法，相对于 Math.floor 写起来比较方便，听说效率也高。为了测试我在jsperf.com上写了个test case <a href="https://jsperf.com/mathfloorvsbitwise" target="_blank" rel="noopener">mathfloorvsbitwise</a>，发现位运算都比Math.floor快些。<br><img src="/images/mathfloorvsbitwise.png" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/25/css伪元素实现宝马logo/" rel="next" title="css伪元素实现宝马logo">
+                <i class="fa fa-chevron-left"></i> css伪元素实现宝马logo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="戴旭">
+          
+            <p class="site-author-name" itemprop="name">戴旭</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/hughdai" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/hugh_dai" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-globe"></i>Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/hughdai" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://codepen.io/HughDai/" target="_blank" title="CodePen">
+                  
+                    <i class="fa fa-fw fa-globe"></i>CodePen</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">2.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、先不说位操作运算符，来看两个逻辑运算符"><span class="nav-number">2.1.</span> <span class="nav-text">一、先不说位操作运算符，来看两个逻辑运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、"><span class="nav-number">2.1.1.</span> <span class="nav-text">1、!!</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、"><span class="nav-number">2.1.2.</span> <span class="nav-text">2、~~</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、位操作运算符"><span class="nav-number">2.2.</span> <span class="nav-text">二、位操作运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、-amp-按位与"><span class="nav-number">2.2.1.</span> <span class="nav-text">1、&amp; (按位与)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、-按位或"><span class="nav-number">2.2.2.</span> <span class="nav-text">2、| (按位或)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、-按位异或"><span class="nav-number">2.2.3.</span> <span class="nav-text">3、^ (按位异或)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、-lt-lt-左移"><span class="nav-number">2.2.4.</span> <span class="nav-text">4、&lt;&lt; (左移)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、-gt-gt-有符号右移"><span class="nav-number">2.2.5.</span> <span class="nav-text">5、 &gt;&gt;(有符号右移)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Math-floor和-、-lt-lt-、-gt-gt-的关系"><span class="nav-number">3.</span> <span class="nav-text">Math.floor和 ~~ 、&lt;&lt; 、&gt;&gt; 的关系</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2015 &mdash; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">戴旭</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.0</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://hughdai.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://hughdai.github.io/2018/07/11/js中的位运算及其用途/';
+          this.page.identifier = '2018/07/11/js中的位运算及其用途/';
+          this.page.title = 'js中的位运算及其用途';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hughdai.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
